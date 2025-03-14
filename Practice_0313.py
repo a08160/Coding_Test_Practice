@@ -71,3 +71,7 @@ def solution(my_string):
     # 순서 유지하면서 중복 제거
     new_list = list(dict.fromkeys(my_string))
     return "".join(new_list)
+
+# dict.fromkeys("문자열"): 문자열 내 순서대로 key 값을 저장하며 중복값을 제거해서 반영(value는 모두 None 으로 설정)
+# list(dict.fromkeys("문자열")): 중복되지 않게 key 값만 list로 저장
+# EX. list(dict.fromkeys("multiple")) => [m,u,l,t,i,p,e]
