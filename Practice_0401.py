@@ -40,3 +40,14 @@ def solution(arr):
 문제5. x만큼 간격이 있는 n개의 숫자(Lv.1)
 함수 solution은 정수 x와 자연수 n을 입력 받아, x부터 시작해 x씩 증가하는 숫자를 n개 지니는 리스트를 리턴해야 합니다. 다음 제한 조건을 보고, 조건을 만족하는 함수, solution을 완성해주세요.
 '''
+
+def solution(x,n):
+    return list(range(x,x*n+1,x)) if x>=0 else list(range(x,x*n-1,x))
+
+# 다른 사람 풀이
+
+def number_generator(x, n):
+    return [i * x + x for i in range(n)]
+
+'''
+'''
