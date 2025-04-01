@@ -50,4 +50,52 @@ def number_generator(x, n):
     return [i * x + x for i in range(n)]
 
 '''
+문제6. 나머지가 1이 되는 수 찾기
+자연수 n이 매개변수로 주어집니다. n을 x로 나눈 나머지가 1이 되도록 하는 가장 작은 자연수 x를 return 하도록 solution 함수를 완성해주세요. 답이 항상 존재함은 증명될 수 있습니다.
 '''
+
+def solution(n):
+    if num == 1:
+        return 2
+
+    num = n-1
+    lst = []
+    for i in range(1,int(num//2)+1):
+        if num%i == 0:
+            lst.extend([i, num//i])
+
+    lst.sort()
+
+    for i in lst:
+        if n%i != 0:
+            return i
+
+# 다른 사람 풀이
+def solution(n):
+    return [x for x in range(1,n+1) if n%x==1][0]
+
+'''
+문제7. 두 정수 사이의 합
+두 정수 a, b가 주어졌을 때 a와 b 사이에 속한 모든 정수의 합을 리턴하는 함수, solution을 완성하세요.
+예를 들어 a = 3, b = 5인 경우, 3 + 4 + 5 = 12이므로 12를 리턴합니다.
+'''
+
+def solution(a,b):
+    a, b = sorted([a, b])
+    return sum(range(a,b+1))
+
+'''
+문제8. 문자열 내 p와 y의 개수
+대문자와 소문자가 섞여있는 문자열 s가 주어집니다. s에 'p'의 개수와 'y'의 개수를 비교해 같으면 True, 다르면 False를 return 하는 solution를 완성하세요. 'p', 'y' 모두 하나도 없는 경우는 항상 True를 리턴합니다. 단, 개수를 비교할 때 대문자와 소문자는 구별하지 않습니다.
+
+예를 들어 s가 "pPoooyY"면 true를 return하고 "Pyy"라면 false를 return합니다.
+
+제한사항
+문자열 s의 길이 : 50 이하의 자연수
+문자열 s는 알파벳으로만 이루어져 있습니다.
+'''
+
+def solution(s):
+    s = s.lower()
+
+    return "true" if s.count("")
