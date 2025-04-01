@@ -148,3 +148,109 @@ def solution(s):
 문자열 s의 길이 : 100,000 이하의 자연수
 문자열 s는 '(' 또는 ')' 로만 이루어져 있습니다.
 '''
+
+def solution(s):
+    while "()" in s:
+        s = s.replace("()", "")
+    
+    return s==""
+
+# 보다 효율적인 코드. 문자열을 지속적으로 복사하지 않기 때문에 공간효율성이 높음
+
+def solution(s):
+    stack = []
+    for char in s:
+        if char == ")" and stack and stack[-1] == "(":
+            stack.pop()
+        else:
+            stack.append(char)
+    return not stack
+
+'''
+문제13. 최솟값 만들기(Lv.2)
+길이가 같은 배열 A, B 두개가 있습니다. 각 배열은 자연수로 이루어져 있습니다.
+배열 A, B에서 각각 한 개의 숫자를 뽑아 두 수를 곱합니다. 이러한 과정을 배열의 길이만큼 반복하며, 두 수를 곱한 값을 누적하여 더합니다. 이때 최종적으로 누적된 값이 최소가 되도록 만드는 것이 목표입니다. (단, 각 배열에서 k번째 숫자를 뽑았다면 다음에 k번째 숫자는 다시 뽑을 수 없습니다.)
+
+예를 들어 A = [1, 4, 2] , B = [5, 4, 4] 라면
+
+A에서 첫번째 숫자인 1, B에서 첫번째 숫자인 5를 뽑아 곱하여 더합니다. (누적된 값 : 0 + 5(1x5) = 5)
+A에서 두번째 숫자인 4, B에서 세번째 숫자인 4를 뽑아 곱하여 더합니다. (누적된 값 : 5 + 16(4x4) = 21)
+A에서 세번째 숫자인 2, B에서 두번째 숫자인 4를 뽑아 곱하여 더합니다. (누적된 값 : 21 + 8(2x4) = 29)
+즉, 이 경우가 최소가 되므로 29를 return 합니다.
+
+배열 A, B가 주어질 때 최종적으로 누적된 최솟값을 return 하는 solution 함수를 완성해 주세요.
+
+제한사항
+배열 A, B의 크기 : 1,000 이하의 자연수
+배열 A, B의 원소의 크기 : 1,000 이하의 자연수
+'''
+
+def solution(A, B):
+    A.sort()
+    B.sort(reverse=True)
+    answer = 0
+    for i in range(len(A)):
+        answer += A[i]*B[i]
+    
+    return answer
+
+# 다른 사람 풀이1. zip 함수를 활용해서 새로운 리스트를 생성
+def getMinSum(A, B):
+    return sum([a * b for a, b in zip(sorted(A), sorted(B, reverse=True))])
+
+# 다른 사람 풀이2. map 활용
+def getMinSum(A,B):
+    return sum(map(lambda a,b : a*b, sorted(A), sorted(B, reverse=True)))
+
+'''
+문제14. JadenCase 문자열 만들기(Lv.2)
+
+JadenCase란 모든 단어의 첫 문자가 대문자이고, 그 외의 알파벳은 소문자인 문자열입니다. 단, 첫 문자가 알파벳이 아닐 때에는 이어지는 알파벳은 소문자로 쓰면 됩니다. (첫 번째 입출력 예 참고)
+문자열 s가 주어졌을 때, s를 JadenCase로 바꾼 문자열을 리턴하는 함수, solution을 완성해주세요.
+
+제한 조건
+s는 길이 1 이상 200 이하인 문자열입니다.
+s는 알파벳과 숫자, 공백문자(" ")로 이루어져 있습니다.
+숫자는 단어의 첫 문자로만 나옵니다.
+숫자로만 이루어진 단어는 없습니다.
+공백문자가 연속해서 나올 수 있습니다.
+'''
+def solution(s):
+    lst = s.split(" ")
+    # 각 단어를 소문자로 바꾼 후, 첫 글자만 대문자로 바꿈
+    lst = [word.lower().capitalize() for word in lst]
+    
+    return " ".join(lst)
+
+# 다른 사람 풀이. title(): 문자별 시작값 대문자화
+def Jaden_Case(s):
+    # 함수를 완성하세요
+    return s.title()
+
+def Jaden_Case(s):
+    answer =[]
+    for i in range(len(s.split())):
+        answer.append(s.split()[i][0].upper() + s.split()[i].lower()[1:]) 
+    return " ".join(answer)
+
+'''
+문제15. 이진 변환 반복하기(Lv.2)
+0과 1로 이루어진 어떤 문자열 x에 대한 이진 변환을 다음과 같이 정의합니다.
+
+x의 모든 0을 제거합니다.
+x의 길이를 c라고 하면, x를 "c를 2진법으로 표현한 문자열"로 바꿉니다.
+예를 들어, x = "0111010"이라면, x에 이진 변환을 가하면 x = "0111010" -> "1111" -> "100" 이 됩니다.
+
+0과 1로 이루어진 문자열 s가 매개변수로 주어집니다. s가 "1"이 될 때까지 계속해서 s에 이진 변환을 가했을 때, 이진 변환의 횟수와 변환 과정에서 제거된 모든 0의 개수를 각각 배열에 담아 return 하도록 solution 함수를 완성해주세요.
+'''
+
+def solution(s):
+    answer = 0
+    time = 0
+    while s != "1":
+        answer += s.count("0")
+        time += 1
+        s = s.replace("0","")
+        s = str(bin(len(s)))[2:]
+
+    return [time, answer]
