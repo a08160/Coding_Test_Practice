@@ -92,7 +92,7 @@ def solution(s):
     return s.isdigit() and len(s) in [4,6]
 
 '''
-문제10. 행렬의 덧셈(Lv.2)
+문제10. 행렬의 덧셈(Lv.1)
 행렬의 덧셈은 행과 열의 크기가 같은 두 행렬의 같은 행, 같은 열의 값을 서로 더한 결과가 됩니다.
 2개의 행렬 arr1과 arr2를 입력받아, 행랠 덧셈의 결과를 반환하는 함수, solution을 완성해주세요.
 '''
@@ -110,3 +110,30 @@ def solution(arr1, arr2):
         return [solution(a1, a2) for a1, a2 in zip(arr1, arr2)]
     else:  # 리스트가 아니라 단일 숫자일 경우, 덧셈 수행
         return arr1 + arr2
+    
+'''
+문제11. 짝지어 제거하기(Lv.2)
+짝지어 제거하기는, 알파벳 소문자로 이루어진 문자열을 가지고 시작합니다. 먼저 문자열에서 같은 알파벳이 2개 붙어 있는 짝을 찾습니다. 그다음, 그 둘을 제거한 뒤, 앞뒤로 문자열을 이어 붙입니다. 이 과정을 반복해서 문자열을 모두 제거한다면 짝지어 제거하기가 종료됩니다. 문자열 S가 주어졌을 때, 짝지어 제거하기를 성공적으로 수행할 수 있는지 반환하는 함수를 완성해 주세요. 성공적으로 수행할 수 있으면 1을, 아닐 경우 0을 리턴해주면 됩니다.
+
+예를 들어, 문자열 S = baabaa 라면
+
+b aa baa → bb aa → aa →
+
+의 순서로 문자열을 모두 제거할 수 있으므로 1을 반환합니다.
+'''
+
+def solution(s):
+    for _ in range(len(s) // 2):
+        for i in set(s):
+            s = s.replace(i * 2, "")
+    return int(s == "")
+            
+# 위 코드는 시간 복잡도가 너무 높음
+def solution(s):
+    stack = []
+    for char in s:
+        if stack and stack[-1] == char:
+            stack.pop()
+        else:
+            stack.append(char)
+    return int(not stack)
