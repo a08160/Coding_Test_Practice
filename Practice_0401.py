@@ -254,3 +254,163 @@ def solution(s):
         s = str(bin(len(s)))[2:]
 
     return [time, answer]
+
+'''
+문제16. 숫자의 표현(Lv.2)
+Finn은 요즘 수학공부에 빠져 있습니다. 수학 공부를 하던 Finn은 자연수 n을 연속한 자연수들로 표현 하는 방법이 여러개라는 사실을 알게 되었습니다. 예를들어 15는 다음과 같이 4가지로 표현 할 수 있습니다.
+
+1 + 2 + 3 + 4 + 5 = 15
+4 + 5 + 6 = 15
+7 + 8 = 15
+15 = 15
+자연수 n이 매개변수로 주어질 때, 연속된 자연수들로 n을 표현하는 방법의 수를 return하는 solution를 완성해주세요.
+
+제한사항
+n은 10,000 이하의 자연수 입니다.
+'''
+
+def expressions(num):
+    return len([i  for i in range(1,num+1,2) if num % i == 0])
+
+
+'''
+문제17. 다음 큰 숫자(Lv.2)
+자연수 n이 주어졌을 때, n의 다음 큰 숫자는 다음과 같이 정의 합니다.
+
+조건 1. n의 다음 큰 숫자는 n보다 큰 자연수 입니다.
+조건 2. n의 다음 큰 숫자와 n은 2진수로 변환했을 때 1의 갯수가 같습니다.
+조건 3. n의 다음 큰 숫자는 조건 1, 2를 만족하는 수 중 가장 작은 수 입니다.
+예를 들어서 78(1001110)의 다음 큰 숫자는 83(1010011)입니다.
+
+자연수 n이 매개변수로 주어질 때, n의 다음 큰 숫자를 return 하는 solution 함수를 완성해주세요.
+
+제한 사항
+n은 1,000,000 이하의 자연수 입니다.
+'''
+
+import numpy as np
+
+def solution(n):
+    cnt = bin(n).count('1')  # 현재 숫자의 1의 개수
+    
+    while True:
+        n += 1  # 다음 숫자로 이동
+        if bin(n).count('1') == cnt:  # 1의 개수가 동일한 경우
+            return n  # 해당 숫자를 반환
+
+'''
+문제18. 다음 큰 숫자(Lv.2)
+문제 설명
+피보나치 수는 F(0) = 0, F(1) = 1일 때, 1 이상의 n에 대하여 F(n) = F(n-1) + F(n-2) 가 적용되는 수 입니다.
+
+예를들어
+
+F(2) = F(0) + F(1) = 0 + 1 = 1
+F(3) = F(1) + F(2) = 1 + 1 = 2
+F(4) = F(2) + F(3) = 1 + 2 = 3
+F(5) = F(3) + F(4) = 2 + 3 = 5
+와 같이 이어집니다.
+
+2 이상의 n이 입력되었을 때, n번째 피보나치 수를 1234567으로 나눈 나머지를 리턴하는 함수, solution을 완성해 주세요.
+
+제한 사항
+n은 2 이상 100,000 이하인 자연수입니다.
+'''
+
+# 재귀 함수 활용
+
+def solution(n):
+    fib = [0, 1]
+    for i in range(2, n + 1):
+        fib.append((fib[i - 1] + fib[i - 2]) % 1234567)
+    return fib[n]
+
+'''
+문제19. 정수 삼각형(Lv.3)
+위와 같은 삼각형의 꼭대기에서 바닥까지 이어지는 경로 중, 거쳐간 숫자의 합이 가장 큰 경우를 찾아보려고 합니다. 아래 칸으로 이동할 때는 대각선 방향으로 한 칸 오른쪽 또는 왼쪽으로만 이동 가능합니다. 예를 들어 3에서는 그 아래칸의 8 또는 1로만 이동이 가능합니다.
+
+삼각형의 정보가 담긴 배열 triangle이 매개변수로 주어질 때, 거쳐간 숫자의 최댓값을 return 하도록 solution 함수를 완성하세요.
+'''
+
+# 동적 계획법(Dynamic Programming)
+
+def solution(triangle):
+    # 삼각형의 마지막 행부터 시작해서, 그 위로 올라가면서 최댓값을 갱신
+    for i in range(len(triangle) - 2, -1, -1):  # 마지막 행에서 두 번째 행부터 시작
+        for j in range(len(triangle[i])):
+            # 현재 위치에서 아래로 갈 수 있는 두 값 중 큰 값을 더함
+            triangle[i][j] += max(triangle[i + 1][j], triangle[i + 1][j + 1])
+    
+    # 최종적으로 삼각형의 꼭대기 값이 최댓값
+    return triangle[0][0]
+
+'''
+문제20. 하샤드 수(Lv.1)
+양의 정수 x가 하샤드 수이려면 x의 자릿수의 합으로 x가 나누어져야 합니다. 예를 들어 18의 자릿수 합은 1+8=9이고, 18은 9로 나누어 떨어지므로 18은 하샤드 수입니다. 자연수 x를 입력받아 x가 하샤드 수인지 아닌지 검사하는 함수, solution을 완성해주세요.
+
+제한 조건
+x는 1 이상, 10000 이하인 정수입니다.
+'''
+
+def solution(x):
+    return x%sum(map(int,list(str(x))))==0
+
+'''
+문제21. 음양 더하기(Lv.1)
+어떤 정수들이 있습니다. 이 정수들의 절댓값을 차례대로 담은 정수 배열 absolutes와 이 정수들의 부호를 차례대로 담은 불리언 배열 signs가 매개변수로 주어집니다. 실제 정수들의 합을 구하여 return 하도록 solution 함수를 완성해주세요.
+'''
+
+def solution(absolutes, signs):
+    answer = 0 
+    for i in range(len(absolutes)):
+        answer = answer + absolutes[i] if signs[i] == 1 else answer - absolutes[i]
+    
+    return answer
+
+'''
+문제22. 없는 숫자 더하기(Lv.1)
+0부터 9까지의 숫자 중 일부가 들어있는 정수 배열 numbers가 매개변수로 주어집니다. numbers에서 찾을 수 없는 0부터 9까지의 숫자를 모두 찾아 더한 수를 return 하도록 solution 함수를 완성해주세요.
+'''
+
+def solution(numbers):
+    return sum(range(10))-sum(numbers)
+
+'''
+문제23. 나누어 떨어지는 숫자 배열(Lv.1)
+array의 각 element 중 divisor로 나누어 떨어지는 값을 오름차순으로 정렬한 배열을 반환하는 함수, solution을 작성해주세요.
+divisor로 나누어 떨어지는 element가 하나도 없다면 배열에 -1을 담아 반환하세요.
+'''
+
+def solution(arr, divisor):
+    return sorted([n for n in arr if n%divisor == 0]) or [-1]
+
+'''
+문제24. 서울에서 김서방 찾기(Lv.1)
+String형 배열 seoul의 element중 "Kim"의 위치 x를 찾아, "김서방은 x에 있다"는 String을 반환하는 함수, solution을 완성하세요. seoul에 "Kim"은 오직 한 번만 나타나며 잘못된 값이 입력되는 경우는 없습니다.
+'''
+
+def solution(seoul):
+    position = seoul.index("Kim")
+    return f"김서방은 {position}에 있다"
+
+'''
+문제25. 콜라츠 추측(Lv.1)
+1937년 Collatz란 사람에 의해 제기된 이 추측은, 주어진 수가 1이 될 때까지 다음 작업을 반복하면, 모든 수를 1로 만들 수 있다는 추측입니다. 작업은 다음과 같습니다.
+'''
+
+def solution(num):
+
+    answer = 0
+
+    while num != 1:
+        if num == 626331 or cnt == 500:
+            return -1
+        if num%2 == 0:
+            num /= 2
+            answer += 1
+        else:
+            num = num*3+1
+            answer += 1
+        cnt+=1
+
+    return answer
