@@ -80,7 +80,33 @@ def solution(s):
 '''
 
 def solution(price,money, count):
-    answer = money-price*sum(range(1,count+1))
-    return answer if answer < 0 else 0
+    answer = price*sum(range(1,count+1))-money
+    return answer if answer > 0 else 0
 
-print(solution(3,20,4))
+'''
+문제9. 문자열 다루기 기본(Lv.1)
+문자열 s의 길이가 4 혹은 6이고, 숫자로만 구성돼있는 지 확인해주는 함수, solution을 완성하세요. 예를 들어 s가 "a234"이면 False를 리턴하고 "1234"라면 True를 리턴하면 됩니다.
+'''
+
+def solution(s):
+    return s.isdigit() and len(s) in [4,6]
+
+'''
+문제10. 행렬의 덧셈(Lv.2)
+행렬의 덧셈은 행과 열의 크기가 같은 두 행렬의 같은 행, 같은 열의 값을 서로 더한 결과가 됩니다.
+2개의 행렬 arr1과 arr2를 입력받아, 행랠 덧셈의 결과를 반환하는 함수, solution을 완성해주세요.
+'''
+
+import numpy as np
+
+def solution(arr1, arr2):
+    new_arr = np.array(arr1)+np.array(arr2)
+    return list(map(list,new_arr))
+
+# 다른 풀이. 재귀 함수 활용
+
+def solution(arr1, arr2):
+    if isinstance(arr1, list):  # arr1 이 list 타입인 지를 판별
+        return [solution(a1, a2) for a1, a2 in zip(arr1, arr2)]
+    else:  # 리스트가 아니라 단일 숫자일 경우, 덧셈 수행
+        return arr1 + arr2
