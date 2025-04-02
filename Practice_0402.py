@@ -137,3 +137,87 @@ def solution(s):
         else:
             stack.append(char)
     return int(not stack)
+
+'''
+문제12. 카펫(Lv.2)
+Leo는 카펫을 사러 갔다가 아래 그림과 같이 중앙에는 노란색으로 칠해져 있고 테두리 1줄은 갈색으로 칠해져 있는 격자 모양 카펫을 봤습니다.
+
+Leo는 집으로 돌아와서 아까 본 카펫의 노란색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.
+
+Leo가 본 카펫에서 갈색 격자의 수 brown, 노란색 격자의 수 yellow가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.
+
+제한사항
+'''
+
+def solution(brown,yellow):
+    column = 1
+
+    while ((brown-4)/2-column)*column != yellow:
+        column += 1
+    
+    return [int(brown/2-column),column+2]
+
+'''
+문제13. 점프와 순간 이동(Lv.2)
+'''
+
+def solution(N):
+    return bin(N).count('1')
+
+'''
+문제14. 구명보트(Lv.2)
+무인도에 갇힌 사람들을 구명보트를 이용하여 구출하려고 합니다. 구명보트는 작아서 한 번에 최대 2명씩 밖에 탈 수 없고, 무게 제한도 있습니다.
+
+예를 들어, 사람들의 몸무게가 [70kg, 50kg, 80kg, 50kg]이고 구명보트의 무게 제한이 100kg이라면 2번째 사람과 4번째 사람은 같이 탈 수 있지만 1번째 사람과 3번째 사람의 무게의 합은 150kg이므로 구명보트의 무게 제한을 초과하여 같이 탈 수 없습니다.
+
+구명보트를 최대한 적게 사용하여 모든 사람을 구출하려고 합니다.
+
+사람들의 몸무게를 담은 배열 people과 구명보트의 무게 제한 limit가 매개변수로 주어질 때, 모든 사람을 구출하기 위해 필요한 구명보트 개수의 최솟값을 return 하도록 solution 함수를 작성해주세요.
+
+'''
+# Greedy method
+def solution(people, limit):
+    people.sort()  # 몸무게를 오름차순으로 정렬
+    left, right = 0, len(people) - 1  # 가장 가벼운 사람과 가장 무거운 사람을 가리키는 포인터
+    boats = 0  # 필요한 구명보트 개수
+    
+    while left <= right:
+        if people[left] + people[right] <= limit:  # 두 사람이 함께 탈 수 있는 경우
+            left += 1  # 가벼운 사람도 탑승
+        right -= 1  # 무거운 사람 탑승
+        boats += 1  # 보트 사용 증가
+    
+    return boats  # 최소 구명보트 개수 반환
+
+# 예제 테스트
+print(solution([70, 50, 80, 50], 100))  # 출력: 3
+
+'''
+문제15. 귤 고르기(Lv.2)
+경화는 과수원에서 귤을 수확했습니다. 경화는 수확한 귤 중 'k'개를 골라 상자 하나에 담아 판매하려고 합니다. 그런데 수확한 귤의 크기가 일정하지 않아 보기에 좋지 않다고 생각한 경화는 귤을 크기별로 분류했을 때 서로 다른 종류의 수를 최소화하고 싶습니다.
+
+예를 들어, 경화가 수확한 귤 8개의 크기가 [1, 3, 2, 5, 4, 5, 2, 3] 이라고 합시다. 경화가 귤 6개를 판매하고 싶다면, 크기가 1, 4인 귤을 제외한 여섯 개의 귤을 상자에 담으면, 귤의 크기의 종류가 2, 3, 5로 총 3가지가 되며 이때가 서로 다른 종류가 최소일 때입니다.
+
+경화가 한 상자에 담으려는 귤의 개수 k와 귤의 크기를 담은 배열 tangerine이 매개변수로 주어집니다. 경화가 귤 k개를 고를 때 크기가 서로 다른 종류의 수의 최솟값을 return 하도록 solution 함수를 작성해주세요.
+'''
+
+def solution(k, tangerine):
+    set1 = set(tangerine)
+    dct = {}
+    for i in set1:
+        dct.update({i:tangerine.count(i)})
+
+    dct = dict(sorted(dct.items(),reverse=True, key = lambda x: x[1]))
+
+    kind = 0
+
+    for value in dct.values():
+        k -= value
+        kind += 1
+
+        if k <= 0:
+            return kind
+    
+    return kind
+
+print(solution(2,	[1, 1, 1, 1, 2, 2, 2, 3]))
