@@ -220,4 +220,19 @@ def solution(k, tangerine):
     
     return kind
 
-print(solution(2,	[1, 1, 1, 1, 2, 2, 2, 3]))
+# 축약 코드
+def solution(k, tangerine):
+    dct = {}
+    for t in tangerine:
+        dct[t] = dct.get(t, 0) + 1  # 딕셔너리에 값 저장
+
+    sorted_values = sorted(dct.values(), reverse=True)  # 값 기준 정렬
+
+    kind = 0
+    for value in sorted_values:
+        k -= value
+        kind += 1
+        if k <= 0:
+            return kind
+    
+    return kind
