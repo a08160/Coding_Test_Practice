@@ -91,3 +91,34 @@ print(solution("t"))
 '''
 문제6. 괄호 회전하기(Lv.2)
 '''
+
+def is_valid(s):
+    stack = []
+    bracket_map = {')': '(', ']': '[', '}': '{'}
+    
+    for char in s:
+        if char in bracket_map.values():  # 여는 괄호
+            stack.append(char)
+        elif char in bracket_map.keys():  # 닫는 괄호
+            if not stack or stack[-1] != bracket_map[char]:
+                return False
+            stack.pop()
+    
+    return not stack  # 스택이 비어 있으면 올바른 괄호 문자열
+
+def solution(s):
+    count = 0
+    for i in range(len(s)):
+        rotated_s = s[i:] + s[:i]  # 문자열 왼쪽으로 회전
+        if is_valid(rotated_s):
+            count += 1
+    
+    return count
+
+'''
+문제7. 행렬의 곱셈(Lv.2)
+'''
+
+def solution(arr1, arr2):
+    return [[sum(a * b for a, b in zip(row, col)) for col in zip(*arr2)] for row in arr1]
+
