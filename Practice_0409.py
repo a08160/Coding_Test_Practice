@@ -230,17 +230,27 @@ def solution(wallet, bill):
 
 # 문제11. n^2 배열 자르기(Lv.2)
 
+def solution(n, left, right):
+    arr = [0]*(n**2)
+    
+    for i in range(1,n+1):
+        arr[i**2:(i+1)**2] = i+1
+    
+    print(arr)
+    
+print(solution(3,2,5))
 
-# 문제12. 할인 행사(Lv.2)
+# 문제12. H-Index(Lv.2)
 
+def solution(citations):
+    num = len(citations)
 
-# 문제13. H-Index(Lv.2)
+    for h in range(num,0,-1):
+        if sum([i>=h for i in citations]) >= h:
+            return h
+    return 0
 
-
-# 문제14. 네트워크(Lv.3)
-
-
-# 문제15. 야근 지수(Lv.3)
+# 문제13. 야근 지수(Lv.3)
 '''
 야근 피로도 += 남은 일의 작업량^2
 '''
@@ -254,4 +264,35 @@ def solution(n, works):
 
     return sum([i**2 for i in works])
 
-print(solution(1,[2,1,2]))
+# 위 코드는 효율성 측면에서 매우 부적절함
+    
+import heapq
+
+def solution(n, works):
+    if sum(works) <= n:
+        return 0  # 다 끝낼 수 있는 경우 피로도는 0
+
+    # 최대 힙 만들기 (음수 사용)
+    works = [-w for w in works]
+    heapq.heapify(works)
+
+    for _ in range(n):
+        max_work = heapq.heappop(works)
+        heapq.heappush(works, max_work + 1)  # 1 줄이기 (음수니까 +1)
+
+    return sum(w**2 for w in works)
+
+'''
+* heapq 클래스
+가장 작은 값이나 가장 큰 값이 루트로 오게 하는 이진 트리의 자료 구조
+
+주요 함수
+
+heapq.heapify(lst)	기존 리스트를 힙으로 바꿉니다 (제자리 정렬).
+heapq.heappush(heap, item)	힙에 아이템을 추가합니다.
+heapq.heappop(heap)	가장 작은 원소를 제거하고 반환합니다.
+heapq.heappushpop(heap, item)	새 아이템을 넣고, 가장 작은 아이템을 꺼냅니다 (더 빠름).
+heapq.heapreplace(heap, item)	heappop 후 heappush (단, 더 빠르게 동작).
+heapq.nlargest(n, iterable)	n개의 가장 큰 요소를 반환합니다.
+heapq.nsmallest(n, iterable)	n개의 가장 작은 요소를 반환합니다.
+'''
