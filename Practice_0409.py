@@ -228,4 +228,30 @@ def solution(wallet, bill):
 
     return count
 
-print(solution([50,50],[100,241]))
+# 문제11. n^2 배열 자르기(Lv.2)
+
+
+# 문제12. 할인 행사(Lv.2)
+
+
+# 문제13. H-Index(Lv.2)
+
+
+# 문제14. 네트워크(Lv.3)
+
+
+# 문제15. 야근 지수(Lv.3)
+'''
+야근 피로도 += 남은 일의 작업량^2
+'''
+def solution(n, works):
+
+    if sum(works) <= n:
+        return 0
+    
+    for i in range(n):
+        works[works.index(max(works))] -= 1
+
+    return sum([i**2 for i in works])
+
+print(solution(1,[2,1,2]))
