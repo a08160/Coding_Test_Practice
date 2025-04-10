@@ -231,14 +231,12 @@ def solution(wallet, bill):
 # 문제11. n^2 배열 자르기(Lv.2)
 
 def solution(n, left, right):
-    arr = [0]*(n**2)
-    
-    for i in range(1,n+1):
-        arr[i**2:(i+1)**2] = i+1
-    
-    print(arr)
-    
-print(solution(3,2,5))
+    answer = []
+    for i in range(left, right + 1):
+        row = i // n
+        col = i % n
+        answer.append(max(row, col) + 1)
+    return answer
 
 # 문제12. H-Index(Lv.2)
 
