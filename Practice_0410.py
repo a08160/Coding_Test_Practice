@@ -140,7 +140,7 @@ def solution(s):
 
     return result
 
-# 다른 풀이2. deque 활용용
+# 다른 풀이2. deque 활용
 
 from collections import deque
 
@@ -167,3 +167,56 @@ def solution(s):
         ans += 1
 
     return ans
+
+# 문제4. 둘만의 암호(Lv.1)
+
+def solution(s, skip, ind):
+
+    alphabet = [chr(i) for i in range(97, 123) if chr(i) not in skip]
+    
+    result = ""
+    length= len(alphabet)
+
+    for w in s:
+        result += alphabet[(alphabet.index(w)+ind)%length]
+
+    return result
+
+# 문제5. 대충 만든 자판(Lv.1)
+
+from collections import Counter
+
+def solution(keymap, targets):
+    result = []
+
+    for w in targets:
+        cnt = 0
+        dct = Counter(w)
+        for char, freq in dct.items():
+            try:
+                min_presses = min([k.index(char) + 1 for k in keymap if char in k])
+                cnt += min_presses * freq
+            except ValueError:
+                cnt = -1
+                break
+        result.append(cnt)
+
+    return result
+
+print(solution(["ABACD", "BCEFD"],["ABCD","AABB"]))
+
+# 문제6. [PCCE 기출문제] 9번 / 이웃한 칸(Lv.1)
+
+def solution(board, h, w):
+    target = board[h][w]
+    cnt = 0
+    rows, cols = len(board), len(board[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
+
+    for dh, dw in directions:
+        nh, nw = h + dh, w + dw
+        if 0 <= nh < rows and 0 <= nw < cols:
+            if board[nh][nw] == target:
+                cnt += 1
+
+    return cnt
