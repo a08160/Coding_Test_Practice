@@ -203,8 +203,6 @@ def solution(keymap, targets):
 
     return result
 
-print(solution(["ABACD", "BCEFD"],["ABCD","AABB"]))
-
 # 문제6. [PCCE 기출문제] 9번 / 이웃한 칸(Lv.1)
 
 def solution(board, h, w):
@@ -225,6 +223,95 @@ def solution(participant, completion):
     for p in completion:
         participant.remove(p)
 
-    print(participant)
+    return participant[0]
 
-solution(["mislav", "stanko", "mislav", "ana"],["stanko", "ana", "mislav"])
+# 효율성 업그레이드 버전
+
+def solution(participant, completion):
+    from collections import defaultdict
+
+    # 참가자 이름을 카운트하는 딕셔너리
+    participant_count = defaultdict(int)
+
+    # 참가자 명단에 이름을 카운트
+    for name in participant:
+        participant_count[name] += 1
+
+    # 완주자 명단에 있는 이름은 카운트에서 차감
+    for name in completion:
+        participant_count[name] -= 1
+
+    # 카운트가 1로 남아 있는 사람이 완주하지 못한 사람
+    for name, count in participant_count.items():
+        if count > 0:
+            return name
+        
+import collections
+
+def solution(participant, completion):
+    answer = collections.Counter(participant) - collections.Counter(completion)
+    return list(answer.keys())[0]
+    
+
+# 문제8. 햄버거 만들기(Lv.1)
+
+def solution(ingredient):
+    ingredient = "".join(map(str,ingredient))
+    cnt = 0
+    while "1231" in ingredient:
+        cnt += 1
+        ingredient = ingredient.replace("1231","",1)
+    
+    return cnt
+
+# 스택 방식 풀이
+
+def solution(ingredient):
+    stack = []
+    cnt = 0
+    for i in ingredient:
+        stack.append(i)
+        if stack[-4:] == [1, 2, 3, 1]:
+            stack[-4:] = []
+            cnt += 1
+    return cnt
+
+# 문제9. 숫자 짝궁(Lv.1)
+
+from collections import Counter
+
+def solution(X, Y):
+    answer = {}
+    result = ""
+
+    X_dct, Y_dct = Counter(X), Counter(Y)
+
+    for key in X_dct.keys():
+        if key in Y_dct:
+            answer[key] = min(X_dct[key], Y_dct[key])
+
+    if not answer:
+        return "-1"
+
+    # 숫자 내림차순 정렬
+    for key, val in sorted(answer.items(), reverse=True):
+        result += key * val
+
+    # 예외 처리: 결과가 0으로만 구성된 경우
+    if result[0] == "0":
+        return "0"
+
+    return result
+
+    
+print(solution("100","2345"))
+
+# 문제10. [PCCE 기출문제] 10번 / 데이터 분석(Lv.1)
+
+def solution(data, ext, val_ext, sort_by):
+    dct = {'code':0, 'date':1,'maximum':2,'remain':3}
+    index = dct[ext]
+    
+    data = sorted(filter(lambda x: x[index] < val_ext, data),key = lambda x: x[dct[sort_by]])
+
+    return data
