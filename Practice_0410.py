@@ -209,14 +209,22 @@ print(solution(["ABACD", "BCEFD"],["ABCD","AABB"]))
 
 def solution(board, h, w):
     target = board[h][w]
+    position = [[h-1, w], [h+1, w], [h, w-1], [h, w+1]]
     cnt = 0
-    rows, cols = len(board), len(board[0])
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Up, Down, Left, Right
-
-    for dh, dw in directions:
-        nh, nw = h + dh, w + dw
-        if 0 <= nh < rows and 0 <= nw < cols:
-            if board[nh][nw] == target:
+    
+    for i, j in position:
+        if 0 <= i < len(board) and 0 <= j < len(board[0]):  # Ensure indices are within bounds
+            if board[i][j] == target:
                 cnt += 1
-
+    
     return cnt
+
+# 문제7. 완주하지 못한 선수(Lv.1)
+
+def solution(participant, completion):
+    for p in completion:
+        participant.remove(p)
+
+    print(participant)
+
+solution(["mislav", "stanko", "mislav", "ana"],["stanko", "ana", "mislav"])
