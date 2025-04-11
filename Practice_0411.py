@@ -132,16 +132,90 @@ def solution(bandage, health, attacks):
 # 문제5. 신규 아이디 추천(Lv.1)
 
 def solution(new_id):
+    # 1단계: 소문자 치환
+    new_id = new_id.lower()
+
+    # 2단계: 알파벳, 숫자, '-', '_', '.'만 남기기
+    filtered = []
+    for ch in new_id:
+        if ch.isalpha() or ch.isdigit() or ch in ["-", "_", "."]:
+            filtered.append(ch)
+    new_id = "".join(filtered)
+
+    # 3단계: 연속된 마침표 치환
+    while ".." in new_id:
+        new_id = new_id.replace("..", ".")
+
+    # 4단계: 처음과 끝의 마침표 제거
+    new_id = new_id.strip('.')
+
+    # 5단계: 빈 문자열이면 "a"
+    if new_id == "":
+        new_id = "a"
+
+    # 6단계: 길이 16자 이상이면 자르고, 끝 마침표 제거
+    if len(new_id) >= 16:
+        new_id = new_id[:15]
+        new_id = new_id.rstrip('.')
+
+    # 7단계: 길이 2 이하일 경우 마지막 문자 반복
+    while len(new_id) < 3:
+        new_id += new_id[-1]
     
+    return new_id
 
-# 문제6. 바탕화면 정리(Lv.1)
+'''
+정규식 풀이
+'''
 
+import re
 
-# 문제7. 개인정보 수집 유효기간(Lv.1)
+def solution(new_id):
+    st = new_id
+    st = st.lower()
+    st = re.sub('[^a-z0-9\-_.]', '', st)
+    st = re.sub('\.+', '.', st)
+    st = re.sub('^[.]|[.]$', '', st)
+    st = 'a' if len(st) == 0 else st[:15]
+    st = re.sub('^[.]|[.]$', '', st)
+    st = st if len(st) > 2 else st + "".join([st[-1] for i in range(3-len(st))])
+    return st
 
+# 문제6. 신고 결과 받기(Lv.1)
 
+from collections import defaultdict
+
+def solution(id_list, reports, k):
+    reports = set(reports)  # 중복 제거
+
+    # 신고당한 사람 기준으로 신고자 목록 저장
+    reported_by = defaultdict(set)
+    for report in reports:
+        reporter, reported = report.split()
+        reported_by[reported].add(reporter)
+
+    # 정지된 유저
+    banned = {user for user, reporters in reported_by.items() if len(reporters) >= k}
+
+    # 각 유저가 받은 메일 수 계산
+    mail_count = {user: 0 for user in id_list}
+    for reported_user in banned:
+        for reporter in reported_by[reported_user]:
+            mail_count[reporter] += 1
+
+    # id_list 순서대로 결과 정리
+    return [mail_count[user] for user in id_list]
+    
 # 문제8. 달리기 경주(Lv.1)
+def solution(players, callings):
 
+    for call in callings:
+        position = players.index(call)
+        players.insert(position-1,players.pop(position))
+    
+    return players
+
+print(solution(["mumu", "soe", "poe", "kai", "mine"],["kai", "kai", "mine", "mine"]))
 
 # 문제9. 유연근무제(Lv.1)
 
