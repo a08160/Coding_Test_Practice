@@ -100,12 +100,39 @@ def solution(numbers, hand):
 
     return answer
 
+# 문제4. [PCCP 기출문제] 1번 / 붕대 감기(Lv.1)
 
-# 문제4. 성격 유형 검사하기(Lv.1)
+def solution(bandage, health, attacks):
+    end_time = attacks[-1][0]
+    attack = {i:j for i,j in attacks}
+    show_time, recover, plus = bandage[:]
+    cnt = 0 
+    heart = health
 
+    for time in range(1, end_time+1):
+        try:
+            heart -= attack[time]
+            cnt = 0
+
+            if heart <= 0:
+                return -1
+        except:
+            cnt += 1
+            heart += recover
+
+            if show_time == cnt:
+                heart += plus
+                cnt = 0
+        
+        if heart > health:
+            heart = health
+        
+    return heart
 
 # 문제5. 신규 아이디 추천(Lv.1)
 
+def solution(new_id):
+    
 
 # 문제6. 바탕화면 정리(Lv.1)
 
@@ -118,23 +145,73 @@ def solution(numbers, hand):
 
 # 문제9. 유연근무제(Lv.1)
 
+def solution(schedules, timelogs, startday):
+    def add_10_minutes(time):
+        hour = time // 100
+        minute = time % 100 + 10
+        if minute >= 60:
+            hour += 1
+            minute -= 60
+        return hour * 100 + minute
+
+    # 각 스케줄에 10분 추가
+    schedules = [add_10_minutes(schedule) for schedule in schedules]
+
+    answer = 0
+    for i in range(len(timelogs)):
+        time = timelogs[i]
+        # 주말(토요일: 6, 일요일: 0)을 제외한 평일 근무시간만 필터링
+        filtered_time = [
+            x for idx, x in enumerate(time) 
+            if (idx + startday) % 7 not in [0, 6]
+        ]
+
+        # 모든 시간 로그가 스케줄보다 작거나 같으면 OK
+        if all(j <= schedules[i] for j in filtered_time):
+            answer += 1
+
+    return answer
 
 # 문제10. 공원 산책(Lv.1)
 
+def solution(park, routes):
+    size = [len(park) - 1, len(park[0]) - 1]
+    gate = []
 
-# 문제11. [PCCE 기출문제] 10번 / 공원(Lv.1)
+    # 시작 위치(S)와 장애물(X) 찾기
+    for row_index, row in enumerate(park):
+        if "S" in row:
+            position = [row_index, row.index("S")]
+        for col_index, char in enumerate(row):
+            if char == "X":
+                gate.append([row_index, col_index])
 
+    # 방향 이동 처리
+    direction = {
+        "E": (0, 1),
+        "W": (0, -1),
+        "S": (1, 0),
+        "N": (-1, 0)
+    }
 
-# 문제12. [PCCP 기출문제] 1번 / 붕대 감기(Lv.1)
+    for route in routes:
+        d, n = route.split()
+        dx, dy = direction[d]
+        n = int(n)
 
+        new_x, new_y = position
+        valid = True
 
-# 문제13. 신고 결과 받기(Lv.1)
+        # 이동할 수 있는지 한 칸씩 확인
+        for _ in range(n):
+            new_x += dx
+            new_y += dy
 
+            if new_x < 0 or new_x > size[0] or new_y < 0 or new_y > size[1] or [new_x, new_y] in gate:
+                valid = False
+                break
 
-# 문제14. [PCCP 기출문제] 1번/ 동영상 재생기(Lv.1)
+        if valid:
+            position = [new_x, new_y]
 
-
-# 문제15. 택배 상자 꺼내기(Lv.1)
-
-
-# 문제16. 가장 많이 받은 선물(Lv.1)
+    return position
