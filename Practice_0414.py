@@ -46,20 +46,40 @@ def solution(s):
     return result
 
         
+# 문제3. 최고의 집합(Lv.3)
 
+def solution(n, s):
+    if n > s:
+        return [-1]
 
-# 문제3. 프로세스(Lv.2)
+    a = s // n
+    r = s % n
+
+    # r개의 수에 +1을 분배해서 오름차순 정렬
+    answer = [a] * (n - r) + [a + 1] * r
+    return answer
+
 
 # 문제4. 롤케이크 자르기(Lv.2)
 
+from collections import Counter
+
 def solution(topping):
-    cnt = 0
+    answer = 0
+    left = set()
+    right = Counter(topping)
 
-    for idx in range(1,len(topping)-1):
-        if len(set(topping[:idx+1])) == len(set(topping[idx:])):
-            cnt += 1
+    for t in topping:
+        left.add(t)         # 왼쪽 조각에 추가
+        right[t] -= 1       # 오른쪽에서 제거
 
-    return cnt
+        if right[t] == 0:
+            del right[t]
+
+        if len(left) == len(right):
+            answer += 1
+
+    return answer
 
 print(solution([1,2,3,1,4])) 
 
