@@ -205,7 +205,30 @@ def solution(id_list, reports, k):
 
     # id_list 순서대로 결과 정리
     return [mail_count[user] for user in id_list]
-    
+
+# 문제7. 전화번호 목록(Lv.2)
+
+import re
+
+def solution(phone_book):
+    for i in range(len(phone_book)):
+        for j in range(len(phone_book)):
+            if i == j:
+                continue
+            # ^는 시작을 의미하는 정규표현식 기호
+            if re.match(f"^{phone_book[i]}", phone_book[j]):
+                return False
+    return True
+
+# 다른 풀이
+def solution(phone_book):
+    phone_book.sort()
+    for i in range(len(phone_book) - 1):
+        if phone_book[i+1].startswith(phone_book[i]): # endswith 라는 것도 있음
+            return False
+    return True
+
+
 # 문제8. 달리기 경주(Lv.1)
 def solution(players, callings):
 
@@ -216,6 +239,28 @@ def solution(players, callings):
     return players
 
 print(solution(["mumu", "soe", "poe", "kai", "mine"],["kai", "kai", "mine", "mine"]))
+
+'''
+효율적인 풀이
+'''
+
+def solution(players, callings):
+    name_to_idx = {name: i for i, name in enumerate(players)}
+
+    for call in callings:
+        idx = name_to_idx[call]
+        if idx == 0:
+            continue  # 이미 1등이면 무시
+
+        # 앞 사람과 자리 바꾸기
+        front = players[idx - 1]
+        players[idx - 1], players[idx] = players[idx], players[idx - 1]
+
+        # 인덱스도 같이 갱신
+        name_to_idx[call] = idx - 1
+        name_to_idx[front] = idx
+
+    return players
 
 # 문제9. 유연근무제(Lv.1)
 
