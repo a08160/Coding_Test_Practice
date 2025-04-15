@@ -1,37 +1,43 @@
-# 문제1. 성격 유형 검사하기(Lv.1)
+# 문제1. 소수 찾기
+
+from itertools import permutations
+
+def is_prime(num):
+    if num < 2:
+        return False
+    for div in range(2, int(num**0.5) + 1):
+        if num % div == 0:
+            return False
+    return True
+
+def solution(numbers):
+    cases = set()
+
+    # 1부터 전체 길이까지 모든 순열 조합 생성
+    for length in range(1, len(numbers) + 1):
+        for perm in permutations(numbers, length):
+            num = int("".join(perm))
+            cases.add(num)
+
+    # 소수 개수 세기
+    return sum(1 for num in cases if is_prime(num))
 
 
+# 문제2. 스킬 트리(Lv.2)
 
-# 문제2. 바탕화면 정리(Lv.1)
+def solution(skill, skill_trees):
+    lst = list(skill)
+    cnt = 0
 
+    for tree in skill_trees:
+        intersection_ordered = [char for char in tree if char in lst]
+        if skill.find("".join(intersection_ordered)) == 0:
+            cnt += 1
 
-
-# 문제3. 개인정보 수집 유효기간(Lv.1)
-
-
-
-# 문제4. [PCCE 기출문제] 10번 / 공원(Lv.1)
-
-
-
-# 문제5. [PCCP 기출문제] 1번 / 동영상 재생기(Lv.1)
+    return cnt
 
 
-
-# 문제6. 택배 상자 꺼내기(Lv.1)
-
-
-
-# 문제7. 가장 많이 받은 선물(Lv.1)
-
-
-
-# 문제8. k진수에서 소수 개수 구하기(Lv.2)
-
-def solution(n,k):
-    
-
-# 문제9. [3차] 압축(Lv.2)
+# 문제3. [3차] 압축(Lv.2)
 
 def solution(msg):
     # 1. 사전 초기화
@@ -62,9 +68,7 @@ def solution(msg):
     return answer
 
 
-        
-
-# 문제10. 파괴되지 않은 건물(Lv.3)
+# 문제4. 파괴되지 않은 건물(Lv.3)
 
 import numpy as np
 
@@ -77,8 +81,12 @@ def solution(board, skills):
 
     return np.sum(board > 0)
 
-# 효율성 강화. Imos Method(Cumsum의 역할 이해하기)
 
+# 효율성 강화. Imos Method(Cumsum의 역할 이해하기)
+'''
+Numpy는 기본적으로 C 언어 기반으로 작성되었기 때문에 시간 효율성이 떨어질 수 밖에 없음
+따라서 모듈을 import 하지 않고 구현하는 것이 더욱 시간 효율적일 수 있음
+'''
 import numpy as np
 
 def solution(board, skills):
