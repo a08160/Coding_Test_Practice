@@ -27,4 +27,26 @@ def solution(rny_string):
 def solution(myString):
     return list(len(str1) for str1 in myString.split("x"))
 
-print(solution("oxooxoxxox"))
+# 문제7. 정수를 나선형으로 배치하기
+'''
+배열을 완전히 list로 바꾸기
+list(array): 첫번째 축을 기준으로 list로 변환하기 때문에 내부는 여전히 array로 남아있음
+따라서 tolist()를 사용하여 완전히 list로 변환해야 함
+'''
+def solution(n):
+    board = [[0] * n for _ in range(n)]
+    dx = [0, 1, 0, -1]  # 오른쪽, 아래, 왼쪽, 위
+    dy = [1, 0, -1, 0]
+    
+    x = y = 0
+    dir = 0  # 시작 방향: 오른쪽
+    for i in range(1, n*n + 1):
+        board[x][y] = i
+        nx, ny = x + dx[dir], y + dy[dir]
+        if 0 <= nx < n and 0 <= ny < n and board[nx][ny] == 0:
+            x, y = nx, ny
+        else:
+            dir = (dir + 1) % 4  # 방향 전환
+            x += dx[dir]
+            y += dy[dir]
+    return board
