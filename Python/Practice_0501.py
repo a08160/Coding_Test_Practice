@@ -26,9 +26,18 @@ def solution(myString, pat):
 import numpy as np
 
 def solution(num_list):
-    return sum(num_list) if len(num_list) >= 11 else np.prod(np.array(num_list))
+    return sum(num_list) if len(num_list) >= 11 else int(np.prod(np.array(num_list)))
 
-print(solution([2, 3, 4, 5])) # 55
+# 다른 풀이
+from math import prod
+def solution(num_list):
+    return sum(num_list) if len(num_list)>=11 else prod(num_list)
+
+def solution(num_list):
+    if len(num_list) >= 11:
+        return eval('+'.join(list(map(str, num_list))))
+    else:
+        return eval('*'.join(list(map(str, num_list))))
 
 # 문제8. 조건에 맞게 수열 변환하기 1
 
