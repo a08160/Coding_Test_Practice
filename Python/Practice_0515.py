@@ -33,3 +33,31 @@ def solution(num_list):
     total_product = reduce(lambda x, y: x * y, num_list)
     return 1 if total_product < total_sum ** 2 else 0
 '''
+
+# 문제3. 순서 바꾸기
+
+def solution(num_list, n):
+    return (num_list*(n//len(num_list)+2))[n:n+len(num_list)]
+
+# 문제4. 문자열 바꿔서 찾기기
+
+def solution(myString, pat):
+    myString = myString.replace("A","b").replace("B","A").upper()
+    
+    return 1 if pat in myString else 0
+
+'''
+def solution(myString, pat):
+    # A는 B로, B는 A로 바꾸기
+    trans = myString.translate(str.maketrans("AB", "BA"))
+    # pat이 포함되어 있으면 1, 아니면 0
+    return 1 if pat in trans else 0
+'''
+
+'''
+str.maketrans("ABC", "DEF") # A->D, B->E, C->F {A: D, B: E, C: F} 의 딕셔너리를 생성
+
+translate()는 문자열의 문자들을 변환 테이블(매핑 딕셔너리)에 따라 바꿔주는 함수
+str.translate(변환_테이블)
+'''
+
