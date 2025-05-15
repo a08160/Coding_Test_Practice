@@ -61,3 +61,20 @@ translate()는 문자열의 문자들을 변환 테이블(매핑 딕셔너리)�
 str.translate(변환_테이블)
 '''
 
+
+
+def solution(n):
+    answer = [n]
+    
+    while n != 1:
+        
+        if n%2 == 0:
+            n /= 2
+        else:
+            n = 3*n + 1
+        answer.append(n)
+
+    return list(map(int, answer))
+
+print(solution(10))
+
