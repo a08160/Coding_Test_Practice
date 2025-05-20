@@ -74,3 +74,35 @@ def solution(my_string):
             answer[ord(x)-71]+=1
     return answer
 '''
+
+# 문제4. 조건 문자열
+
+def solution(ineq, eq, n, m):
+    return int(eval(f"{n} {ineq}{eq} {m}".replace("!","")))
+
+'''
+eval() 함수는 쓰면 안 되는 것은 아님
+
+간단한 수식에 대한 문자열 등은 eval() 함수를 활용해서 처리하는 것이 효율적임
+
+다만 복잡한 코드의 경우에는 eval()이 하드 코딩화 시킬 가능성이 높아 사용을 지양해야 함
+
+또한, 입력을 그대로 실행하기 때문에 보안상 위험할 수 있음
+
+그리고, 정적 분석(코드의 흐름)을 하기 어려움
+'''
+
+def solution(arr, k):
+    lst = list(set(arr))
+    l = len(lst)
+    if l >= k:
+        return lst[:k]
+    else:
+        return lst + [-1]*(k-l)
+    
+
+print(solution([0,1,1,1],4 ))
+
+'''
+pow(x, y, z): x**y%z
+'''

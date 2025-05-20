@@ -3,11 +3,32 @@ velog.io/@leehyuna/코테에-필요한-Python-라이브러리-정리
 
 python 자체의 표준 라이브러리는 허용
 
-import sys
-import math
-import heapq
-import collections
+1. 기본 데이터 타입 관련
+import re
+import math, cmath
+import decimal, fractions
+import random
+import statistics
+
+2. 날짜와 시간 관련
+import datetime
+import time
+import calendar
+
+3. 데이터 구조
+import collections (Counter, deque, defaultdict)
+import heapq, bisect
+import array, queue
+
+4. 알고리즘 / 함수형 도구
 import itertools
+import functools
+import operator
+
+5. 파일 및 디렉토리
+
+import sys
+
 
 외부 라이브러리는 대부분 사용 불가
 
