@@ -49,3 +49,28 @@ def solution(code):
 
     return answer if answer else 'EMPTY'
 '''
+
+# 문제3. 문자 개수 세기
+
+from collections import Counter
+
+def solution(my_string):
+    answer = [0]*52
+    lst = list(range(65,91))+list(range(97,123))
+    dct = dict(Counter(my_string))
+    
+    for key, val in dct.items():
+        answer[lst.index(ord(key))] = val
+        
+    return answer
+
+'''
+def solution(my_string):
+    answer=[0]*52
+    for x in my_string:
+        if x.isupper():
+            answer[ord(x)-65]+=1
+        else:
+            answer[ord(x)-71]+=1
+    return answer
+'''
