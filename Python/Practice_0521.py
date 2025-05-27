@@ -15,3 +15,14 @@ def solution(num_list):
 def solution(num_list):
     return sum(len(bin(i)) - 3 for i in num_list)
 '''
+
+# 문제2. 문자열이 몇 번 등장하는 지 세기
+# 정규표현식
+
+import re
+
+def solution(myString, pat):
+    # (?=...) : 앞서보기 (lookahead)를 사용해 겹치는 패턴도 인식
+    pattern = f'(?={re.escape(pat)})'
+    return len(re.findall(pattern, myString))
+
